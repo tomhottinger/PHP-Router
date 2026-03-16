@@ -1,0 +1,17 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# .htaccess  –  Route all requests through index.php
+# Place this in the DocumentRoot of each managed VirtualHost.
+# ─────────────────────────────────────────────────────────────────────────────
+
+Options -Indexes
+RewriteEngine On
+
+# Let existing files and directories pass through untouched.
+# (The PHP router also checks for real files, but Apache-level short-circuit
+#  is faster and avoids unnecessary PHP overhead for static assets.)
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Route everything else through the router.
+RewriteRule ^ index.php [L]
